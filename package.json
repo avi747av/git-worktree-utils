@@ -1,0 +1,56 @@
+{
+  "name": "git-worktree-utils",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Safe git worktree management CLI with environment file syncing",
+  "keywords": [
+    "git",
+    "worktree",
+    "monorepo",
+    "cli",
+    "env",
+    "dotenv",
+    "workspace",
+    "branch",
+    "parallel",
+    "development"
+  ],
+  "bin": {
+    "wt": "./dist/cli.js",
+    "wt-add": "./dist/add.js",
+    "wt-list": "./dist/list.js",
+    "wt-find": "./dist/find.js",
+    "wt-rename": "./dist/rename.js",
+    "wt-remove": "./dist/remove.js",
+    "wt-sync-env": "./dist/sync-env.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "prepublishOnly": "npm run build",
+    "publish:patch": "npm run build && npm version patch && npm publish",
+    "publish:minor": "npm run build && npm version minor && npm publish",
+    "publish:major": "npm run build && npm version major && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/avi747av/git-worktree-utils"
+  },
+  "author": "Avi Weiss",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avi747av/git-worktree-utils/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "vite": "^5.0.0"
+  }
+}
