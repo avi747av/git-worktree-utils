@@ -16,13 +16,13 @@
     "development"
   ],
   "bin": {
-    "wt": "./dist/cli.js",
-    "wt-add": "./dist/add.js",
-    "wt-list": "./dist/list.js",
-    "wt-find": "./dist/find.js",
-    "wt-rename": "./dist/rename.js",
-    "wt-remove": "./dist/remove.js",
-    "wt-sync-env": "./dist/sync-env.js"
+    "wt": "dist/cli.js",
+    "wt-add": "dist/add.js",
+    "wt-list": "dist/list.js",
+    "wt-find": "dist/find.js",
+    "wt-rename": "dist/rename.js",
+    "wt-remove": "dist/remove.js",
+    "wt-sync-env": "dist/sync-env.js"
   },
   "files": [
     "dist"
@@ -36,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/avi747av/git-worktree-utils"
+    "url": "git+https://github.com/avi747av/git-worktree-utils.git"
   },
   "author": "Avi Weiss",
   "license": "MIT",
