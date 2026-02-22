@@ -34,8 +34,8 @@ Commands:
   sync-env    Sync .env files to other worktrees
 
 Options for 'add':
-  --dirName=<name>      Directory name for the worktree (required)
-  --branchName=<name>   Branch name (defaults to dirName)
+  --branchName=<name>   Branch name (required)
+  --dirName=<name>      Directory name for the worktree (defaults to branchName)
 
 Options for 'find':
   --search=<term>       Search term (case-insensitive)
@@ -59,8 +59,8 @@ Safety Features:
   - Automatically copies .env files when creating worktrees
 
 Examples:
-  wt add --dirName=my-feature --branchName=feature/my-feature
-  wt add --dirName=bugfix-123
+  wt add --branchName=feature/my-feature
+  wt add --branchName=feature/my-feature --dirName=my-feature
   wt find --search=feature
   wt sync-env --all
   wt remove --dirName=old-feature

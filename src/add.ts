@@ -9,14 +9,15 @@ import {
 
 const args = parseArgs(process.argv.slice(2));
 
-const dirName = args['dirName'] as string;
-const branchName = args['branchName'] as string | undefined;
+const branchName = args['branchName'] as string;
+const dirName = args['dirName'] as string | undefined;
 
-if (!dirName) {
-  exitWithError('Missing --dirName=...');
+if (!branchName) {
+  exitWithError('Missing --branchName=...');
 }
 
-const branch = branchName || dirName;
+const branch = branchName;
+const dir = dirName || branchName;
 
 // Check if branch is already checked out
 const { checkedOut, location } = isBranchCheckedOut(branch);
@@ -55,7 +56,7 @@ function branchExistsOnRemote(branchName: string): boolean {
 }
 
 // Create the worktree
-const targetPath = `../${dirName}`;
+const targetPath = `../${dir}`;
 try {
   console.log(`Creating worktree at ${targetPath} for branch ${branch}...`);
 
@@ -78,5 +79,5 @@ try {
 // Copy .env files
 console.log('\nCopying .env files...');
 const mainRoot = getMainRepoRoot();
-const count = copyEnvFiles(mainRoot, `../${dirName}`);
+const count = copyEnvFiles(mainRoot, `../${dir}`);
 console.log(`Done copying ${count} .env file(s)`);
