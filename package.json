@@ -1,6 +1,6 @@
 {
   "name": "git-worktree-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "description": "Safe git worktree management CLI with environment file syncing",
   "keywords": [
