@@ -6,7 +6,7 @@ import {
   exitWithError
 } from './utils';
 import { existsSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -29,7 +29,7 @@ if (to) {
     exitWithError(`Worktree not found: ${targetPath}`);
   }
   // Get absolute path
-  const absPath = require('path').resolve(targetPath);
+  const absPath = resolve(targetPath);
   targets = [absPath];
 } else if (all) {
   // Get all worktrees except current
