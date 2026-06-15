@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
-const commands = ['cli', 'add', 'list', 'find', 'rename', 'remove', 'sync-env'];
+const commands = ['cli', 'add', 'list', 'find', 'rename', 'remove', 'switch', 'sync-env'];
 
 export default defineConfig({
   build: {

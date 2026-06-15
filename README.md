@@ -33,6 +33,7 @@ wt-list
 wt-find [options]
 wt-rename [options]
 wt-remove [options]
+wt-switch [options]
 wt-sync-env [options]
 ```
 
@@ -93,6 +94,26 @@ wt remove --dirName=old-feature
 - Blocks if uncommitted changes exist
 - Blocks if unpushed commits exist
 - Prevents removing the main repository
+
+### `wt switch` (alias: `wt co`, `wt checkout`)
+
+Repoint an existing worktree at a different branch: renames the worktree directory, checks out the new branch, and re-copies `.env*` files.
+
+```bash
+wt switch --fromDirName=old-feature --branchName=feature/new
+wt switch --fromDirName=old-feature --branchName=feature/new --toDirName=custom-dir
+```
+
+**Options:**
+- `--fromDirName=<name>` - Existing worktree directory (required)
+- `--branchName=<name>` - Branch to switch to (required; created if it doesn't exist)
+- `--toDirName=<name>` - New directory name (defaults to branchName)
+
+**Safety checks:**
+- Blocks if uncommitted changes exist
+- Blocks if unpushed commits exist
+- Prevents switching the main repository
+- Blocks if target branch is checked out in another worktree
 
 ### `wt sync-env` (alias: `wt sync`)
 

@@ -22,6 +22,7 @@
     "wt-find": "dist/find.js",
     "wt-rename": "dist/rename.js",
     "wt-remove": "dist/remove.js",
+    "wt-switch": "dist/switch.js",
     "wt-sync-env": "dist/sync-env.js"
   },
   "files": [

@@ -15,6 +15,9 @@ const commands: Record<string, string> = {
   mv: 'rename.js',
   remove: 'remove.js',
   rm: 'remove.js',
+  switch: 'switch.js',
+  co: 'switch.js',
+  checkout: 'switch.js',
   'sync-env': 'sync-env.js',
   sync: 'sync-env.js',
 };
@@ -26,12 +29,13 @@ git-worktree-utils - Safe git worktree management CLI
 Usage: wt <command> [options]
 
 Commands:
-  add         Create a new worktree (with .env file copying)
-  list, ls    List all worktrees
-  find        Search worktrees by name
-  rename, mv  Rename a worktree directory
-  remove, rm  Remove a worktree (with safety checks)
-  sync-env    Sync .env files to other worktrees
+  add             Create a new worktree (with .env file copying)
+  list, ls        List all worktrees
+  find            Search worktrees by name
+  rename, mv      Rename a worktree directory
+  remove, rm      Remove a worktree (with safety checks)
+  switch, co      Repoint an existing worktree at a different branch (renames dir + re-syncs envs)
+  sync-env        Sync .env files to other worktrees
 
 Options for 'add':
   --branchName=<name>   Branch name (required)
@@ -47,6 +51,11 @@ Options for 'rename':
 Options for 'remove':
   --dirName=<name>      Directory name to remove (required)
 
+Options for 'switch':
+  --fromDirName=<name>  Existing worktree directory (required)
+  --branchName=<name>   Branch to switch to (required)
+  --toDirName=<name>    New directory name (defaults to branchName)
+
 Options for 'sync-env':
   --to=<dirName>        Sync to specific worktree
   --all                 Sync to all other worktrees
@@ -61,6 +70,8 @@ Safety Features:
 Examples:
   wt add --branchName=feature/my-feature
   wt add --branchName=feature/my-feature --dirName=my-feature
+  wt switch --fromDirName=old-feature --branchName=feature/new
+  wt rename --oldDirName=old-name --newDirName=new-name
   wt find --search=feature
   wt sync-env --all
   wt remove --dirName=old-feature
