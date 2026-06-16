@@ -63,11 +63,21 @@ wt add --dirName=bugfix-123  # uses dirName as branch name
 
 ### `wt list` (alias: `wt ls`)
 
-Lists all git worktrees.
+Lists all git worktrees with status markers.
 
 ```bash
 wt list
+wt list --sort     # main first, then clean worktrees, then ones with markers
+wt list --plain    # raw `git worktree list` output (no markers)
 ```
+
+**Status markers:**
+- `[main]` — the main repository (cannot be switched/renamed/removed)
+- `[dirty:N]` — N files with uncommitted changes
+- `[unpushed:N]` — N local commits not present on any remote
+- `[no-upstream]` — branch has no upstream tracking ref
+
+When any worktree has `[dirty:N]` or `[unpushed:N]`, the output ends with copy-pasteable `git -C` commands to inspect the actual files/commits.
 
 ### `wt find` (alias: `wt search`)
 

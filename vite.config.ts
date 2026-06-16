@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
+import { chmodSync } from 'fs';
 
 const commands = ['cli', 'add', 'list', 'find', 'rename', 'remove', 'switch', 'sync-env'];
 
@@ -20,6 +21,7 @@ export default defineConfig({
         'path',
         'os',
         'url',
+        'util',
       ],
     },
     outDir: 'dist',
@@ -34,6 +36,14 @@ export default defineConfig({
         for (const chunk of Object.values(bundle)) {
           if (chunk.type === 'chunk' && chunk.isEntry) {
             chunk.code = '#!/usr/bin/env node\n' + chunk.code;
+          }
+        }
+      },
+      writeBundle(options, bundle) {
+        const outDir = options.dir ?? 'dist';
+        for (const chunk of Object.values(bundle)) {
+          if (chunk.type === 'chunk' && chunk.isEntry) {
+            chmodSync(join(outDir, chunk.fileName), 0o755);
           }
         }
       },
