@@ -12,10 +12,25 @@ Examples:
   wt add --branchName=feature/my-feature
   wt add --branchName=feature/my-feature --dirName=my-feature`,
 
-  list: `wt list (alias: wt ls) - List all worktrees
+  list: `wt list (alias: wt ls) - List all worktrees with status markers
 
 Usage:
-  wt list`,
+  wt list [--plain] [--sort]
+
+Options:
+  --plain   Output raw 'git worktree list' (no status markers)
+  --sort    Show main repo first, then clean worktrees, then ones with markers
+
+Status markers:
+  [main]         The main repository (cannot be switched/renamed/removed)
+  [dirty:N]      N files with uncommitted changes
+  [unpushed:N]   N local commits not present on any remote
+  [no-upstream]  Branch has no upstream tracking ref
+
+Examples:
+  wt list
+  wt list --sort
+  wt list --plain`,
 
   find: `wt find (alias: wt search) - Search worktrees by name (case-insensitive)
 
