@@ -5,8 +5,11 @@ import {
   copyEnvFiles,
   exitWithError
 } from './utils';
+import { printHelpIfRequested } from './help';
 import { existsSync } from 'fs';
 import { join, resolve } from 'path';
+
+printHelpIfRequested('sync-env');
 
 const args = parseArgs(process.argv.slice(2));
 

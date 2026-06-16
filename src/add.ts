@@ -1,11 +1,16 @@
 import { execSync } from 'child_process';
+import { printHelpIfRequested } from './help';
 import {
   parseArgs,
   isBranchCheckedOut,
   getMainRepoRoot,
   copyEnvFiles,
+  branchExistsLocally,
+  branchExistsOnRemote,
   exitWithError
 } from './utils';
+
+printHelpIfRequested('add');
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -33,26 +38,6 @@ try {
   execSync('git fetch', { stdio: 'inherit' });
 } catch {
   console.warn('Warning: git fetch failed, continuing anyway...');
-}
-
-// Check if branch exists locally
-function branchExistsLocally(branchName: string): boolean {
-  try {
-    const result = execSync(`git branch --list ${branchName}`, { encoding: 'utf-8' });
-    return result.trim().length > 0;
-  } catch {
-    return false;
-  }
-}
-
-// Check if branch exists on remote
-function branchExistsOnRemote(branchName: string): boolean {
-  try {
-    const result = execSync(`git branch -r --list origin/${branchName}`, { encoding: 'utf-8' });
-    return result.trim().length > 0;
-  } catch {
-    return false;
-  }
 }
 
 // Create the worktree

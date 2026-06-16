@@ -1,6 +1,6 @@
 {
   "name": "git-worktree-utils",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "description": "Safe git worktree management CLI with environment file syncing",
   "keywords": [
@@ -22,6 +22,7 @@
     "wt-find": "dist/find.js",
     "wt-rename": "dist/rename.js",
     "wt-remove": "dist/remove.js",
+    "wt-switch": "dist/switch.js",
     "wt-sync-env": "dist/sync-env.js"
   },
   "files": [

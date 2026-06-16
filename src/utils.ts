@@ -48,6 +48,24 @@ export function isBranchCheckedOut(branch: string): { checkedOut: boolean; locat
   return { checkedOut: false };
 }
 
+export function branchExistsLocally(branchName: string): boolean {
+  try {
+    const result = execSync(`git branch --list ${branchName}`, { encoding: 'utf-8' });
+    return result.trim().length > 0;
+  } catch {
+    return false;
+  }
+}
+
+export function branchExistsOnRemote(branchName: string): boolean {
+  try {
+    const result = execSync(`git branch -r --list origin/${branchName}`, { encoding: 'utf-8' });
+    return result.trim().length > 0;
+  } catch {
+    return false;
+  }
+}
+
 export function hasUncommittedChanges(path: string): boolean {
   const result = execSync(`git -C "${path}" status --porcelain`, { encoding: 'utf-8' });
   return result.trim().length > 0;
@@ -82,13 +100,14 @@ export function findEnvFilesInProjects(root: string): string[] {
   // Get unique directories
   const projectDirs = [...new Set(projectFiles.map(f => dirname(f)))];
 
-  // Find .env files in those directories
+  // Find .env files in those directories (excluding templates/examples)
   const envFiles: string[] = [];
   for (const dir of projectDirs) {
     const envs = fg.sync(['.env', '.env.*'], {
       cwd: dir,
       absolute: true,
       dot: true,
+      ignore: ['.env.template', '.env.example', '.env.sample'],
     });
     envFiles.push(...envs);
   }

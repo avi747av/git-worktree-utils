@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import { existsSync, rmSync, renameSync } from 'fs';
 import { join } from 'path';
+import { printHelpIfRequested } from './help';
 import {
   parseArgs,
   isMainRepository,
@@ -8,6 +9,8 @@ import {
   hasUnpushedCommits,
   exitWithError
 } from './utils';
+
+printHelpIfRequested('remove');
 
 const args = parseArgs(process.argv.slice(2));
 
