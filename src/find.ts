@@ -1,5 +1,8 @@
 import { execSync } from 'child_process';
 import { parseArgs } from './utils';
+import { printHelpIfRequested } from './help';
+
+printHelpIfRequested('find');
 
 const args = parseArgs(process.argv.slice(2));
 const search = args['search'] as string | undefined;

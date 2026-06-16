@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import { existsSync, renameSync } from 'fs';
 import { join } from 'path';
+import { printHelpIfRequested } from './help';
 import {
   parseArgs,
   isMainRepository,
@@ -13,6 +14,8 @@ import {
   branchExistsOnRemote,
   exitWithError
 } from './utils';
+
+printHelpIfRequested('switch');
 
 const args = parseArgs(process.argv.slice(2));
 

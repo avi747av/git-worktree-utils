@@ -1,4 +1,5 @@
 import { execSync } from 'child_process';
+import { printHelpIfRequested } from './help';
 import {
   parseArgs,
   isBranchCheckedOut,
@@ -8,6 +9,8 @@ import {
   branchExistsOnRemote,
   exitWithError
 } from './utils';
+
+printHelpIfRequested('add');
 
 const args = parseArgs(process.argv.slice(2));
 

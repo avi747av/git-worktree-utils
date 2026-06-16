@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { HELP_TEXTS, resolveCommandKey } from './help';
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -22,11 +23,13 @@ const commands: Record<string, string> = {
   sync: 'sync-env.js',
 };
 
-function showHelp() {
+function showGeneralHelp() {
   console.log(`
 git-worktree-utils - Safe git worktree management CLI
 
 Usage: wt <command> [options]
+       wt help [command]
+       wt <command> --help
 
 Commands:
   add             Create a new worktree (with .env file copying)
@@ -34,42 +37,20 @@ Commands:
   find            Search worktrees by name
   rename, mv      Rename a worktree directory
   remove, rm      Remove a worktree (with safety checks)
-  switch, co      Repoint an existing worktree at a different branch (renames dir + re-syncs envs)
-  sync-env        Sync .env files to other worktrees
+  switch, co      Repoint an existing worktree at a different branch
+  sync-env, sync  Sync .env files to other worktrees
 
-Options for 'add':
-  --branchName=<name>   Branch name (required)
-  --dirName=<name>      Directory name for the worktree (defaults to branchName)
-
-Options for 'find':
-  --search=<term>       Search term (case-insensitive)
-
-Options for 'rename':
-  --oldDirName=<name>   Current directory name (required)
-  --newDirName=<name>   New directory name (required)
-
-Options for 'remove':
-  --dirName=<name>      Directory name to remove (required)
-
-Options for 'switch':
-  --fromDirName=<name>  Existing worktree directory (required)
-  --branchName=<name>   Branch to switch to (required)
-  --toDirName=<name>    New directory name (defaults to branchName)
-
-Options for 'sync-env':
-  --to=<dirName>        Sync to specific worktree
-  --all                 Sync to all other worktrees
+Run \`wt help <command>\` or \`wt <command> --help\` for command-specific options.
 
 Safety Features:
   - Blocks operations on main repository
-  - Blocks remove/rename with uncommitted changes
-  - Blocks remove/rename with unpushed commits
+  - Blocks remove/rename/switch with uncommitted changes
+  - Blocks remove/rename/switch with unpushed commits
   - Checks if branch is already checked out elsewhere
   - Automatically copies .env files when creating worktrees
 
 Examples:
   wt add --branchName=feature/my-feature
-  wt add --branchName=feature/my-feature --dirName=my-feature
   wt switch --fromDirName=old-feature --branchName=feature/new
   wt rename --oldDirName=old-name --newDirName=new-name
   wt find --search=feature
@@ -78,8 +59,29 @@ Examples:
 `);
 }
 
-if (!command || command === 'help' || command === '--help' || command === '-h') {
-  showHelp();
+function showCommandHelp(name: string): boolean {
+  const key = resolveCommandKey(name);
+  if (!key || !HELP_TEXTS[key]) return false;
+  console.log(HELP_TEXTS[key]);
+  return true;
+}
+
+if (!command || command === '--help' || command === '-h') {
+  showGeneralHelp();
+  process.exit(0);
+}
+
+if (command === 'help') {
+  const sub = args[1];
+  if (!sub) {
+    showGeneralHelp();
+    process.exit(0);
+  }
+  if (!showCommandHelp(sub)) {
+    console.error(`Unknown command: ${sub}`);
+    console.error('Run "wt help" for usage information');
+    process.exit(1);
+  }
   process.exit(0);
 }
 
@@ -94,7 +96,7 @@ if (!scriptFile) {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const scriptPath = resolve(__dirname, scriptFile);
 
-// Forward remaining args to the command
+// Forward remaining args to the command (each one is the per-command help-aware script)
 const forwardArgs = args.slice(1).join(' ');
 
 try {
