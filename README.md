@@ -37,6 +37,15 @@ wt-switch [options]
 wt-sync-env [options]
 ```
 
+### Help
+
+```bash
+wt help                  # general help — lists all commands
+wt help <command>        # detailed help for one command
+wt <command> --help      # same as above (also: -h)
+wt-<command> --help      # works on individual binaries too
+```
+
 ## Commands
 
 ### `wt add` - Create a new worktree
